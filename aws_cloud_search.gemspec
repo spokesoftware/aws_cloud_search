@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = AwsCloudSearch::VERSION
 
+  # TODO: add some version numbers here
   gem.add_dependency 'faraday_middleware'
   gem.add_dependency 'yajl-ruby'
 
