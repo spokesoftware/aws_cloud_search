@@ -1,6 +1,9 @@
-require "aws_cloud_search/configuration_service"
+require "aws_cloud_search/cloud_search_config"
 require "aws_cloud_search/document"
+require "aws_cloud_search/document_batch"
+require "aws_cloud_search/document_batcher"
 require "aws_cloud_search/document_service"
+require "aws_cloud_search/search_request"
 require "aws_cloud_search/search_service"
 require "aws_cloud_search/version"
 
