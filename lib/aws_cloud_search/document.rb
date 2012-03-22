@@ -1,3 +1,5 @@
+require "yajl/json_gem"
+
 module AwsCloudSearch
   class Document
 
@@ -69,6 +71,11 @@ module AwsCloudSearch
           :lang => @lang,
           :fields => @fields
       }
+    end
+
+    #Return this object as json
+    def to_json
+      to_hash.to_json
     end
 
   end
