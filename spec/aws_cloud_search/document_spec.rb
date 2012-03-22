@@ -20,6 +20,7 @@ describe AwsCloudSearch::Document do
   it "should reject an incorrectly formatted id" do
     expect { @doc.id='AZ12'}.to raise_error(Exception)
     expect { @doc.id='!@#$%^&*()AZ'}.to raise_error(Exception)
+    expect { @doc.id= '_abc123'}.to raise_error(Exception)
   end
 
 end
