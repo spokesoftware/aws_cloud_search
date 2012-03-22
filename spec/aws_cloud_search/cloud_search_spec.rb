@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe AwsCloudSearch::DocumentService do
+describe AwsCloudSearch::CloudSearch do
   before(:each) do
-    @ds = AwsCloudSearch::DocumentService.new('spoke-dev-1-na4eszv5wms3lahf4xnq27x6ym')
+    @ds = AwsCloudSearch::CloudSearch.new('spoke-dev-1-na4eszv5wms3lahf4xnq27x6ym')
 
     @doc1 = AwsCloudSearch::Document.new(true)
     @doc1.id = '73e'

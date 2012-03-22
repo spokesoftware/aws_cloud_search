@@ -3,7 +3,7 @@ require "aws_cloud_search"
 
 module AwsCloudSearch
   # TODO: (dj) refactor into class CloudSearch
-  class DocumentService
+  class CloudSearch
 
     def initialize(domain, region="us-east-1")
       @conn = AwsCloudSearch::create_connection( AwsCloudSearch::document_url(domain, region) )
