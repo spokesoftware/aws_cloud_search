@@ -1,5 +1,5 @@
 module AwsCloudSearch
-  class ConfigurationService
+  class CloudSearchConfig
 
   end
 end
