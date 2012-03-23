@@ -68,5 +68,11 @@ module AwsCloudSearch
       (@batch_add + @batch_delete).map {|item| item.to_hash}.to_json
     end
 
+    def clear
+      @batch_add.clear
+      @batch_delete.clear
+      @bytesize = 0
+    end
+
   end
 end

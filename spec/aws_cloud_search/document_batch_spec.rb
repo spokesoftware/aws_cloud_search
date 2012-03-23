@@ -91,4 +91,18 @@ describe AwsCloudSearch::DocumentBatch do
     @batch.full?.should_not be_true
   end
 
+  it "should clear" do
+    clear_batch = AwsCloudSearch::DocumentBatch.new
+    clear_batch.add_document @doc1
+    clear_batch.delete_document @doc2
+
+    clear_batch.bytesize.should be > 0
+    clear_batch.size.should be > 0
+
+    clear_batch.clear
+
+    clear_batch.bytesize.should eq(0)
+    clear_batch.size.should eq(0)
+  end
+
 end
