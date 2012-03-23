@@ -23,6 +23,8 @@ module AwsCloudSearch
       @batch.delete_document doc
     end
 
+    # Sends the batch of adds and deletes to CloudSearch Search and then clears the current batch.
+    # TODO: (dj) implement connection retry logic
     def flush
       @cs.documents_batch @batch
       @batch.clear
