@@ -6,9 +6,9 @@ module AwsCloudSearch
   # and send requests for each chunk.
   class DocumentBatcher
 
-    def initialize(domain, region="us-east-1")
+    def initialize(cs)
+      @cs = cs
       @batch = DocumentBatch.new
-      @cs = CloudSearch.new(domain, region)
     end
 
     def add_document(doc)

@@ -38,5 +38,11 @@ module AwsCloudSearch
       resp.body
     end
 
+    # Build a DocumentBatcher linked to this CloudSearch domain
+    # @return [DocumentBatcher]
+    def new_batcher
+      DocumentBatcher.new(self)
+    end
+
   end
 end
