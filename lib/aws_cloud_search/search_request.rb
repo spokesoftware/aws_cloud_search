@@ -4,15 +4,15 @@ module AwsCloudSearch
     attr_accessor :q, :bq, :rank, :results_type, :return_fields, :size, :start
 
     def to_hash
-      {
-        'q' => @q,
-        'bq' => @bq,
-        'rank' => @rank,
-        'results-type' => @results_type,
-        'return-fields' => @return_fields,
-        'size' => @size,
-        'start' => @start
-      }
+      hash = {}
+      hash['q']     = @q unless @q.nil?
+      hash['bq']    = @q unless @bq.nil?
+      hash['rank']  = @q unless @rank.nil?
+      hash['size']  = @q unless @size.nil?
+      hash['start'] = @q unless @start.nil?
+      hash['results-type']  = @q unless @results_type.nil?
+      hash['return-fields'] = @q unless @return_fields.nil?
+      hash
     end
 
   end
