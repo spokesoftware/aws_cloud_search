@@ -6,12 +6,12 @@ module AwsCloudSearch
     def to_hash
       hash = {}
       hash['q']     = @q unless @q.nil?
-      hash['bq']    = @q unless @bq.nil?
-      hash['rank']  = @q unless @rank.nil?
-      hash['size']  = @q unless @size.nil?
-      hash['start'] = @q unless @start.nil?
-      hash['results-type']  = @q unless @results_type.nil?
-      hash['return-fields'] = @q unless @return_fields.nil?
+      hash['bq']    = @bq unless @bq.nil?
+      hash['rank']  = @rank unless @rank.nil?
+      hash['size']  = @size unless @size.nil?
+      hash['start'] = @start unless @start.nil?
+      hash['results-type']  = @results_type unless @results_type.nil?
+      hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
       hash
     end
 
