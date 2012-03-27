@@ -31,7 +31,7 @@ module AwsCloudSearch
     def search(search_req)
       raise ArgumentError.new("Invalid Type: search_request must be of type SearchRequest") unless search_req.is_a? SearchRequest
 
-      resp = @conn.get do |req|
+      resp = @search_conn.get do |req|
         req.url "/#{AwsCloudSearch::API_VERSION}/search", search_req.to_hash
       end
       resp.body
