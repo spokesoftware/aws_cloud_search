@@ -13,8 +13,6 @@ module AwsCloudSearch
       @response = response
 
       FIELDS.each do |f|
-        # TODO: f needs to replace underscore to dash
-
         fs = f.to_s.gsub('_' , '-')
         val = @response[fs] || @response['info'][fs] || @response['hits'][fs]
         self.instance_variable_set "@#{f}", val
