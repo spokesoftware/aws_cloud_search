@@ -34,7 +34,7 @@ module AwsCloudSearch
       resp = @search_conn.get do |req|
         req.url "/#{AwsCloudSearch::API_VERSION}/search", search_req.to_hash
       end
-      resp.body
+      SearchResponse.new(resp.body)
     end
 
     # Build a DocumentBatcher linked to this CloudSearch domain

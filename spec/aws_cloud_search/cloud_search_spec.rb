@@ -21,4 +21,17 @@ describe AwsCloudSearch::CloudSearch do
     ds.new_batcher.should be_kind_of(AwsCloudSearch::DocumentBatcher)
   end
 
+  it "should search" do
+    sr = AwsCloudSearch::SearchRequest.new
+    sr.bq = "(and name:'Jane' text:'Jane')"
+    sr.return_fields = %w(logo_url name type)
+    sr.size = 10
+    sr.start = 0
+    sr.results_type = 'json'
+
+    res = ds.search(sr)
+
+    res.should be_a(AwsCloudSearch::SearchResponse)
+  end
+
 end
