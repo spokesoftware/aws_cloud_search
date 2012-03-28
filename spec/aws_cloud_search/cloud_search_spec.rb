@@ -8,12 +8,22 @@ describe AwsCloudSearch::CloudSearch do
     batch = AwsCloudSearch::DocumentBatch.new
     
     doc1 = AwsCloudSearch::Document.new(true)
-    doc1.id = '73e'
+    doc1.id = Time.now.to_i.to_s
     doc1.lang = 'en'
     doc1.add_field('name', 'Jane Williams')
     doc1.add_field('type', 'person')
 
+    doc2 = AwsCloudSearch::Document.new(true)
+    doc2.id = Time.now.to_i.to_s
+    doc2.lang = 'en'
+    doc2.add_field(:name, 'Bob Dobalina')
+    doc2.add_field(:type, 'person')
+    doc2.add_field(:summary, nil)
+    doc2.add_field(:num_links, nil)
+
+
     batch.add_document doc1
+    batch.add_document doc2
     ds.documents_batch(batch)
   end
 

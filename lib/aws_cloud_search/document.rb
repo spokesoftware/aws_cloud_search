@@ -48,7 +48,7 @@ module AwsCloudSearch
       elsif id == nil
         @id = id
       else
-        raise ArgumentError.new("Invalid Type")
+        raise ArgumentError.new("Invalid Type: document id must be of type string.")
       end
     end
 
@@ -64,6 +64,7 @@ module AwsCloudSearch
 
     # Return this object as a hash
     def to_hash
+      @fields.delete_if {|key,val| val.nil?}
       {
           :type => @type,
           :id => @id,
