@@ -28,7 +28,7 @@ describe AwsCloudSearch::CloudSearch do
   end
 
   it "should return a DocumentBatcher instance for new_batcher" do
-    ds.new_batcher.should be_kind_of(AwsCloudSearch::DocumentBatcher)
+    ds.new_batcher.should be_an(AwsCloudSearch::DocumentBatcher)
   end
 
   it "should search" do
@@ -41,7 +41,7 @@ describe AwsCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_a(AwsCloudSearch::SearchResponse)
+    res.should be_an(AwsCloudSearch::SearchResponse)
   end
 
 end

@@ -45,8 +45,8 @@ describe AwsCloudSearch::DocumentBatch do
 
   it "should raise error when the max batch size is exceeded" do
     small_batch = AwsCloudSearch::DocumentBatch.new(1, 10)
-    expect {small_batch.add_document @doc1}.to raise_error
-    expect {small_batch.delete_document @doc1}.to raise_error
+    expect { small_batch.add_document @doc1 }.to raise_error
+    expect { small_batch.delete_document @doc1 }.to raise_error
   end
 
   it "should be full" do
