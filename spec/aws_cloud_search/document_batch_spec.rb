@@ -15,6 +15,7 @@ describe AwsCloudSearch::DocumentBatch do
 
   let(:sample_delete_doc) do
     AwsCloudSearch::Document.new(true).tap do |d|
+      d.type = 'delete' # we have to set this here so that delete doc bytesize calculations are correct
       d.id = '47p'
       d.lang = nil
     end

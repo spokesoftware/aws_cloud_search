@@ -60,13 +60,15 @@ module AwsCloudSearch
     # Return this object as a hash
     def to_hash
       @fields.delete_if {|key,val| val.nil?}
-      {
+      h = {
           :type => @type,
           :id => @id,
           :version => @version,
-          :lang => @lang,
           :fields => @fields
       }
+      h[:lang] = @lang unless (@type == 'delete')
+
+      h      
     end
 
     #Return this object as json

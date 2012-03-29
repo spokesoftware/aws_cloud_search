@@ -27,6 +27,24 @@ describe AwsCloudSearch::CloudSearch do
     ds.documents_batch(batch)
   end
 
+  it "should delete a document" do
+    id = 'joeblotzdelete_test'
+    batch1 = AwsCloudSearch::DocumentBatch.new
+    doc1 = AwsCloudSearch::Document.new(true)
+    doc1.id = id
+    doc1.lang = 'en'
+    doc1.add_field('name', 'Joe Blotz Delete Test')
+    doc1.add_field('type', 'person')
+    batch1.add_document doc1
+    ds.documents_batch(batch1)
+
+    batch2 = AwsCloudSearch::DocumentBatch.new
+    doc2 = AwsCloudSearch::Document.new(true)
+    doc2.id = id
+    batch2.delete_document doc2
+    ds.documents_batch(batch2)
+  end
+
   it "should return a DocumentBatcher instance for new_batcher" do
     ds.new_batcher.should be_an(AwsCloudSearch::DocumentBatcher)
   end
