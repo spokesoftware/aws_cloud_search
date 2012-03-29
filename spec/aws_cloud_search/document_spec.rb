@@ -1,26 +1,38 @@
 require 'spec_helper'
 
 describe AwsCloudSearch::Document do
-  before(:each) do
-    @doc = AwsCloudSearch::Document.new
+  let (:doc) { AwsCloudSearch::Document.new }
+
+  context "#id=" do
+    it "should accept a String-able value (Integer)" do
+      expect { doc.id = 123456789 }.to_not raise_error
+    end
+  
+    it "should accept a compliant String" do
+      expect { doc.id = "abcdef" }.to_not raise_error
+    end
+
+    it "should not accept a non-compliant String" do
+      expect { doc.id = 'AZ12' }.to raise_error(ArgumentError)
+      expect { doc.id = '!@#$%^&*()AZ' }.to raise_error(ArgumentError)
+      expect { doc.id = '_abc123' }.to raise_error(ArgumentError)
+    end
+
+    it "should not accept nil" do
+      expect { doc.id = nil }.to raise_error(ArgumentError)
+    end
   end
 
-  it "should accept values of the proper type" do
-    expect { @doc.id='123abc' }.to_not raise_error
-    expect { @doc.lang='en' }.to_not raise_error
-    expect { @doc.version=123 }.to_not raise_error
-  end
+  context "#type_attr_accessor attributes" do
+    it "should accept values of proper type" do
+      expect { doc.lang = 'abcd' }.to_not raise_error
+      expect { doc.version = 1234 }.to_not raise_error
+    end
 
-  it "should throw an exception when given values of the wrong type" do
-    expect { @doc.id=123 }.to raise_error(Exception)
-    expect { @doc.lang=123 }.to raise_error(Exception)
-    expect { @doc.version='abc123' }.to raise_error(Exception)
-  end
-
-  it "should reject an incorrectly formatted id" do
-    expect { @doc.id='AZ12'}.to raise_error(Exception)
-    expect { @doc.id='!@#$%^&*()AZ'}.to raise_error(Exception)
-    expect { @doc.id= '_abc123'}.to raise_error(Exception)
+    it "should not accept values of incorrect type" do 
+      expect { doc.lang = 1234 }.to raise_error(ArgumentError)
+      expect { doc.version "abcd" }.to raise_error(ArgumentError)
+    end
   end
 
 end

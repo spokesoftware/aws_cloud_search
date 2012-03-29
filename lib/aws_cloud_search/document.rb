@@ -42,14 +42,9 @@ module AwsCloudSearch
 
     # The id field must conform to a special format
     def id=(id)
-      if id.is_a? String
-        raise ArgumentError.new("Document id must match the regex [a-z0-9][a-z0-9_]*$") unless id =~ /^[a-z0-9][a-z0-9_]*$/
-        @id = id.downcase
-      elsif id == nil
-        @id = id
-      else
-        raise ArgumentError.new("Invalid Type: document id must be of type string.")
-      end
+      raise ArgumentError.new("Invalid ID: Document id must be a String or respond to #to_s") if (id.nil? || !id.respond_to?(:to_s))
+      @id = id.to_s
+      raise ArgumentError.new("Invalid ID: Document id must match the regex [a-z0-9][a-z0-9_]*$") unless @id =~ /^[a-z0-9][a-z0-9_]*$/
     end
 
     # Resets the fields.
