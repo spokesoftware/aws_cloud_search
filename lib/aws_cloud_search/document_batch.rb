@@ -39,6 +39,7 @@ module AwsCloudSearch
     # required for delete operations.
     # @param [Document] doc The document to delete
     # @raise [ArgumentError] If parameter is not an AwsCloudSearch::Document
+    # TODO: refactor to only use the required fields, hide the document construction from the user
     def delete_document(doc)
       raise ArgumentError.new("Invalid Type") unless doc.is_a? Document
 
