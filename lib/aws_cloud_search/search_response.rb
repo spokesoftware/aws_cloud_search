@@ -14,8 +14,15 @@ module AwsCloudSearch
 
       FIELDS.each do |f|
         fs = f.to_s.gsub('_' , '-')
+        if @response.has_key? 'info'
+          val = @response['info'][fs]
+        elsif @response.has_key? 'hits'
+          val = @response['hits'][fs]
+        else
+          val = @response[fs]
+        end
         val = @response[fs] || @response['info'][fs] || @response['hits'][fs]
-        self.instance_variable_set "@#{f}", val
+        self.instance_variable_set "@#{f}", val unless val.nil?
       end
 
       @hits = @response['hits']['hit']
