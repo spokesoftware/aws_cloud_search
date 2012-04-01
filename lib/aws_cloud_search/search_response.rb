@@ -24,11 +24,11 @@ module AwsCloudSearch
         self.instance_variable_set "@#{f}", val unless val.nil?
       end
 
-      @hits = @response['hits']['hit']
+      @hits = @response['hits']['hit'] if @response.has_key? 'hits'
     end
 
     def result_size
-      @hits.size
+      @hits ? @hits.size : 0
     end
 
 
