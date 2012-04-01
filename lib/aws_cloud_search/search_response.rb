@@ -21,7 +21,6 @@ module AwsCloudSearch
         else
           val = @response[fs]
         end
-        val = @response[fs] || @response['info'][fs] || @response['hits'][fs]
         self.instance_variable_set "@#{f}", val unless val.nil?
       end
 
