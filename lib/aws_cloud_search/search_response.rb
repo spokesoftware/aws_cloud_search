@@ -14,9 +14,9 @@ module AwsCloudSearch
 
       FIELDS.each do |f|
         fs = f.to_s.gsub('_' , '-')
-        if @response.has_key? 'info'
+        if @response.has_key? 'info' and @response['info'][fs]
           val = @response['info'][fs]
-        elsif @response.has_key? 'hits'
+        elsif @response.has_key? 'hits' and @response['hits'][fs]
           val = @response['hits'][fs]
         else
           val = @response[fs]
