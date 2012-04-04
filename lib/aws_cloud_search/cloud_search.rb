@@ -2,7 +2,6 @@ require "yajl/json_gem"
 require "aws_cloud_search"
 
 module AwsCloudSearch
-  # TODO: (dj) refactor into class CloudSearch
   class CloudSearch
 
     def initialize(domain, region="us-east-1")
@@ -34,7 +33,32 @@ module AwsCloudSearch
       resp = @search_conn.get do |req|
         req.url "/#{AwsCloudSearch::API_VERSION}/search", search_req.to_hash
       end
-      SearchResponse.new(resp.body)
+
+      search_response = SearchResponse.new(resp.body)
+      if search_response.error
+        raise StandardError.new("Unknown error") if resp.messages.blank?
+        code = resp.messages.first['code']
+        message = resp.messages.first['message']
+        msg = "#{code}: #{message}"
+        case code
+          when /WildcardTermLimit/
+            raise WildcardTermLimit.new(msg)
+          when /InvalidFieldOrRankAliasInRankParameter/
+            raise InvalidFieldOrRankAliasInRankParameter, msg
+          when /UnknownFieldInMatchExpression/
+            raise UnknownFieldInMatchExpression, msg
+          when /IncorrectFieldTypeInMatchExpression/
+            raise IncorrectFieldTypeInMatchExpression, msg
+          when /InvalidMatchExpression/
+            raise InvalidMatchExpression, msg
+          when /UndefinedField/
+            raise UndefinedField, msg
+          else
+            raise AwsCloudSearchError, "Unknown error. #{msg}"
+        end
+      end
+
+      search_response
     end
 
     # Build a DocumentBatcher linked to this CloudSearch domain
