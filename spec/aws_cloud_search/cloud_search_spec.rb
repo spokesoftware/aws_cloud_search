@@ -51,7 +51,7 @@ describe AwsCloudSearch::CloudSearch do
 
   it "should search" do
     sr = AwsCloudSearch::SearchRequest.new
-    sr.bq = "(and name:'Jane' text:'Jane')"
+    sr.bq = "(and name:'Jane')"
     sr.return_fields = %w(logo_url name type)
     sr.size = 10
     sr.start = 0
