@@ -5,6 +5,7 @@ module AwsCloudSearch
 
     alias :results :hits
 
+    # error is an undocumented field that occurs when an error is returned
     FIELDS = [ :match_expr, :rank, :cpu_time_ms, :time_ms, :rid, :found, :start, :error, :messages ].freeze
     FIELDS.each { |f| attr_accessor f }
 
