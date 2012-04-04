@@ -45,6 +45,36 @@ describe AwsCloudSearch::CloudSearch do
     ds.documents_batch(batch2)
   end
 
+  it "should raise ArgumentError for invalid XML 1.0 chars" do
+    batch = AwsCloudSearch::DocumentBatch.new
+
+    doc1 = AwsCloudSearch::Document.new(true)
+    id = Time.now.to_i.to_s
+    doc1.id = id
+    doc1.lang = 'en'
+    doc1.add_field('name', "Jane Williams")
+    doc1.add_field('type', 'person')
+
+    # \\uD800 is not a valid UTF-8 and it this line of code may cause your debugger to break
+    expect {doc1.add_field("summary", "This is a REALLY bad char, not even UTF-8 acceptable: \uD800")}.to raise_error(ArgumentError)
+
+    #expect { batch.add_document doc1 }.to raise_error(ArgumentError)
+
+    doc2 = AwsCloudSearch::Document.new(true)
+    id = Time.now.to_i.to_s
+    doc2.id = id
+    doc2.lang = 'en'
+    doc2.add_field('name', "Brian Williams")
+    doc2.add_field('type', 'person')
+    expect {doc2.add_field("summary", "This is a bad char for XML 1.0: \v")}.to raise_error(ArgumentError)
+
+    doc2.instance_variable_get("@fields")['how_did_i_get_here'] = "This is a bad char for XML 1.0: \ufffe"
+    expect { batch.add_document doc2 }.to raise_error(ArgumentError)
+
+  end
+
+
+
   it "should return a DocumentBatcher instance for new_batcher" do
     ds.new_batcher.should be_an(AwsCloudSearch::DocumentBatcher)
   end

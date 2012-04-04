@@ -37,6 +37,7 @@ module AwsCloudSearch
     # @param [String] name Name of the document field
     # @param [String, Integer] value Value of the document field
     def add_field(name, value)
+      raise ArgumentError.new("Found invalid XML 1.0 unicode character(s)") if value.is_a? String and value =~ INVALID_CHAR_XML10
       @fields[name] = value
     end
 

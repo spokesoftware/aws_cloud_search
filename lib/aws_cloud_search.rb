@@ -13,6 +13,11 @@ require "faraday_middleware"
 module AwsCloudSearch
   API_VERSION = "2011-02-01"
 
+  # AwsCloudSearch Cloud Search only allows XML 1.0 valid characters
+  INVALID_CHAR_XML10 = /[^\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]/m
+  # for future reference in case AWS-CS updates to XML 1.1 char compliance
+  #INVALID_CHAR_XML11 = /[^\u0001-\uD7FF\uE000-\uFFFD]/m
+
 
   def self.search_url(domain, region="us-east-1")
     "http://search-#{domain}.#{region}.cloudsearch.amazonaws.com"
