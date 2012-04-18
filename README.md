@@ -9,14 +9,14 @@ currently supports only the search and document batching APIs
 
 ## Roadmap
 
-Spoke developed this library in a short period of time in order to migrate from IndexTank to AwsCloudSearchCloudSearch.
+Spoke developed this library in a short period of time in order to migrate from IndexTank to AWS CloudSearch.
 As such, there are a few features that are missing that we would like to build over time.
 
 + Implementation of the configuration API
 + Query builder
 + Faceting helpers
-+ Spec tests that stub our the AWS CloudSearch service
-+ Sample usage in this READMe
++ Spec tests that stub the AWS CloudSearch service
++ Sample usage in this README
 
 ## Installation
 
