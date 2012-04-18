@@ -15,7 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = AWSCloudSearch::VERSION
 
-  # TODO: add some version numbers here
   gem.add_dependency 'faraday_middleware', '>= 0.8.0'
 
   gem.add_development_dependency 'rspec', '>= 2.6.0'
