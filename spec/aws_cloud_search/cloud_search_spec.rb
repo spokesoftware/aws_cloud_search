@@ -1,8 +1,13 @@
 require 'spec_helper'
 
+# These tests requires that your domain index contains the following fields:
+# - name: text
+# - type: text
+# - summary: text
+# - num_links: uint
 describe AWSCloudSearch::CloudSearch do
 
-  let(:ds) { AWSCloudSearch::CloudSearch.new('') }
+  let(:ds) { AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN']) }
 
   it "should send document batch" do
     batch = AWSCloudSearch::DocumentBatch.new
