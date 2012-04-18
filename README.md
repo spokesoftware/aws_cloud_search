@@ -1,15 +1,22 @@
-# AwsCloudSearch
+# AWSCloudSearch
 
+## Description
 
-## Work in Progress
+This gem is an implementation of the Amazon Web Service CloudSearch API (http://aws.amazon.com/cloudsearch/).
+
+The AWS CloudSearch service is comprised of three API end points: search, document batching, and configuration. This gem
+currently supports only the search and document batching APIs
+
+## Roadmap
 
 Spoke developed this library in a short period of time in order to migrate from IndexTank to AwsCloudSearchCloudSearch.
-As such, there are a few features that are missing that we would build out over time.
+As such, there are a few features that are missing that we would like to build over time.
 
 + Implementation of the configuration API
-+ Query builder class
++ Query builder
 + Faceting helpers
 + Spec tests that stub our the AWS CloudSearch service
++ Sample usage in this READMe
 
 ## Installation
 
