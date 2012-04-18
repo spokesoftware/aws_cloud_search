@@ -1,6 +1,15 @@
 # AwsCloudSearch
 
-TODO: Write a gem description
+
+## Work in Progress
+
+Spoke developed this library in a short period of time in order to migrate from IndexTank to AwsCloudSearchCloudSearch.
+As such, there are a few features that are missing that we would build out over time.
+
++ Implementation of the configuration API
++ Query builder class
++ Faceting helpers
++ Spec tests that stub our the AWS CloudSearch service
 
 ## Installation
 

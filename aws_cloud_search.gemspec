@@ -2,8 +2,8 @@
 require File.expand_path('../lib/aws_cloud_search/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["David Jensen"]
-  gem.email         = ["david.jensen@spoke.com"]
+  gem.authors       = ["David Jensen", "Mike Javorski"]
+  gem.email         = ["david.jensen@spoke.com", "mike.javorski@spoke.com"]
   gem.description   = %q{AwsCloudSearch Search gem}
   gem.summary       = %q{Implementation of the AWS Cloud Search API}
   gem.homepage      = ""
