@@ -1,5 +1,5 @@
 module AWSCloudSearch
-  # Cloud Search API errors
+  # CloudSearch API errors
   class AwsCloudSearchError < StandardError; end
   class WildcardTermLimit < AwsCloudSearchError; end
   class InvalidFieldOrRankAliasInRankParameter < AwsCloudSearchError; end

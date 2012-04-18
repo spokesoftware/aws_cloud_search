@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["David Jensen", "Mike Javorski"]
   gem.email         = ["david.jensen@spoke.com", "mike.javorski@spoke.com"]
   gem.description   = %q{AWSCloudSearch Search gem}
-  gem.summary       = %q{Implementation of the AWS Cloud Search API}
+  gem.summary       = %q{Implementation of the AWS CloudSearch API}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)

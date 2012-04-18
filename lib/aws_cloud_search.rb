@@ -13,7 +13,7 @@ require "faraday_middleware"
 module AWSCloudSearch
   API_VERSION = "2011-02-01"
 
-  # AWSCloudSearch Cloud Search only allows XML 1.0 valid characters
+  # AWS CloudSearch only allows XML 1.0 valid characters
   INVALID_CHAR_XML10 = /[^\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]/m
   # for future reference in case AWS-CS updates to XML 1.1 char compliance
   #INVALID_CHAR_XML11 = /[^\u0001-\uD7FF\uE000-\uFFFD]/m
