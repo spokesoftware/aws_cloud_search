@@ -1,4 +1,4 @@
-require "yajl/json_gem"
+require "json"
 require "aws_cloud_search"
 
 module AwsCloudSearch

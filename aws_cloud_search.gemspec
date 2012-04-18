@@ -17,7 +17,6 @@ Gem::Specification.new do |gem|
 
   # TODO: add some version numbers here
   gem.add_dependency 'faraday_middleware', '>= 0.8.0'
-  gem.add_dependency 'yajl-ruby'
 
   gem.add_development_dependency 'rspec', '>= 2.6.0'
 end
