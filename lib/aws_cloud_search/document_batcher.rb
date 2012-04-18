@@ -1,7 +1,7 @@
 require "json"
 require "aws_cloud_search"
 
-module AwsCloudSearch
+module AWSCloudSearch
   # Convenience method that will allow continuous batch additions and will chunk to a size threshold
   # and send requests for each chunk.
   class DocumentBatcher

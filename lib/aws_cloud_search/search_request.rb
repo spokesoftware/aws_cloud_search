@@ -1,4 +1,4 @@
-module AwsCloudSearch
+module AWSCloudSearch
   class SearchRequest
 
     attr_accessor :q, :bq, :rank, :results_type, :return_fields, :size, :start

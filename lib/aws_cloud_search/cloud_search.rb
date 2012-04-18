@@ -1,12 +1,12 @@
 require "json"
 require "aws_cloud_search"
 
-module AwsCloudSearch
+module AWSCloudSearch
   class CloudSearch
 
     def initialize(domain, region="us-east-1")
-      @doc_conn = AwsCloudSearch::create_connection( AwsCloudSearch::document_url(domain, region) )
-      @search_conn = AwsCloudSearch::create_connection( AwsCloudSearch::search_url(domain, region) )
+      @doc_conn = AWSCloudSearch::create_connection( AWSCloudSearch::document_url(domain, region) )
+      @search_conn = AWSCloudSearch::create_connection( AWSCloudSearch::search_url(domain, region) )
     end
 
     # Sends a batch of document updates and deletes by invoking the CloudSearch documents/batch API
@@ -16,7 +16,7 @@ module AwsCloudSearch
       raise ArgumentError.new("Invalid argument. Expected DocumentBatch, got #{doc_batch.class}.") unless doc_batch.is_a? DocumentBatch
 
       resp = @doc_conn.post do |req|
-        req.url "/#{AwsCloudSearch::API_VERSION}/documents/batch"
+        req.url "/#{AWSCloudSearch::API_VERSION}/documents/batch"
         req.headers['Content-Type'] = 'application/json'
         req.body = doc_batch.to_json
       end
@@ -31,7 +31,7 @@ module AwsCloudSearch
       raise ArgumentError.new("Invalid Type: search_request must be of type SearchRequest") unless search_req.is_a? SearchRequest
 
       resp = @search_conn.get do |req|
-        req.url "/#{AwsCloudSearch::API_VERSION}/search", search_req.to_hash
+        req.url "/#{AWSCloudSearch::API_VERSION}/search", search_req.to_hash
       end
 
       search_response = SearchResponse.new(resp.body)

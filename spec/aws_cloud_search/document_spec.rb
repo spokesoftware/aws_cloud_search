@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe AwsCloudSearch::Document do
-  let (:doc) { AwsCloudSearch::Document.new }
+describe AWSCloudSearch::Document do
+  let (:doc) { AWSCloudSearch::Document.new }
 
   context "#id=" do
     it "should accept a String-able value (Integer)" do

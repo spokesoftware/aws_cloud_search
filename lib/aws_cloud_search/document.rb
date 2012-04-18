@@ -1,6 +1,6 @@
 require "json"
 
-module AwsCloudSearch
+module AWSCloudSearch
   class Document
 
     # A typed attribute accessor helper. When the value is set, if it does not match

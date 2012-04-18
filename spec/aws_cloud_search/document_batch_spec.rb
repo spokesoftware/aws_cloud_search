@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe AwsCloudSearch::DocumentBatch do
+describe AWSCloudSearch::DocumentBatch do
 
-  let(:batch) { AwsCloudSearch::DocumentBatch.new }
+  let(:batch) { AWSCloudSearch::DocumentBatch.new }
 
   let(:sample_add_doc) do
-    AwsCloudSearch::Document.new(true).tap do |d|
+    AWSCloudSearch::Document.new(true).tap do |d|
       d.id = '73e'
       d.lang = 'en'
       d.add_field('name', 'Jane Williams')
@@ -14,7 +14,7 @@ describe AwsCloudSearch::DocumentBatch do
   end
 
   let(:sample_delete_doc) do
-    AwsCloudSearch::Document.new(true).tap do |d|
+    AWSCloudSearch::Document.new(true).tap do |d|
       d.type = 'delete' # we have to set this here so that delete doc bytesize calculations are correct
       d.id = '47p'
       d.lang = nil
@@ -22,13 +22,13 @@ describe AwsCloudSearch::DocumentBatch do
   end
 
   it "should should not instantiate" do
-    expect { AwsCloudSearch::DocumentBatch.new(100, 100) }.to raise_error(ArgumentError)
-    expect { AwsCloudSearch::DocumentBatch.new(101, 100) }.to raise_error(ArgumentError)
+    expect { AWSCloudSearch::DocumentBatch.new(100, 100) }.to raise_error(ArgumentError)
+    expect { AWSCloudSearch::DocumentBatch.new(101, 100) }.to raise_error(ArgumentError)
   end
 
   it "should instantiate" do
-    expect { AwsCloudSearch::DocumentBatch.new }.to_not raise_error
-    expect { AwsCloudSearch::DocumentBatch.new(100, 101) }.to_not raise_error
+    expect { AWSCloudSearch::DocumentBatch.new }.to_not raise_error
+    expect { AWSCloudSearch::DocumentBatch.new(100, 101) }.to_not raise_error
   end
 
   it "should raise error when passed an invalid object type" do
@@ -50,7 +50,7 @@ describe AwsCloudSearch::DocumentBatch do
   end
 
   it "should raise error when the max batch size is exceeded" do
-    small_batch = AwsCloudSearch::DocumentBatch.new(1, 10)
+    small_batch = AWSCloudSearch::DocumentBatch.new(1, 10)
     expect { small_batch.add_document(sample_add_doc) }.to raise_error
     expect { small_batch.delete_document(sample_delete_doc) }.to raise_error
   end
@@ -58,21 +58,21 @@ describe AwsCloudSearch::DocumentBatch do
   it "should be full" do
     bytesize = sample_add_doc.to_json.bytesize
 
-    b1 = AwsCloudSearch::DocumentBatch.new(bytesize)
+    b1 = AWSCloudSearch::DocumentBatch.new(bytesize)
     b1.add_document sample_add_doc
     b1.full?.should be_true
 
-    b2 = AwsCloudSearch::DocumentBatch.new(bytesize-1)
+    b2 = AWSCloudSearch::DocumentBatch.new(bytesize-1)
     b2.add_document sample_add_doc
     b2.full?.should be_true
 
     bytesize = sample_delete_doc.to_json.bytesize
 
-    b3 = AwsCloudSearch::DocumentBatch.new(bytesize)
+    b3 = AWSCloudSearch::DocumentBatch.new(bytesize)
     b3.delete_document sample_delete_doc
     b3.full?.should be_true
 
-    b4 = AwsCloudSearch::DocumentBatch.new(bytesize-1)
+    b4 = AWSCloudSearch::DocumentBatch.new(bytesize-1)
     b4.delete_document sample_delete_doc
     b4.full?.should be_true
   end
@@ -98,7 +98,7 @@ describe AwsCloudSearch::DocumentBatch do
   end
 
   it "should clear" do
-    clear_batch = AwsCloudSearch::DocumentBatch.new
+    clear_batch = AWSCloudSearch::DocumentBatch.new
     clear_batch.add_document sample_add_doc
     clear_batch.delete_document sample_delete_doc
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AwsCloudSearch::SearchResponse do
+describe AWSCloudSearch::SearchResponse do
   before(:each) do
     @res1 = {
         'hits' => {
@@ -19,7 +19,7 @@ describe AwsCloudSearch::SearchResponse do
   end
 
   it "should initialize from hash" do
-    sr = AwsCloudSearch::SearchResponse.new(@res1)
+    sr = AWSCloudSearch::SearchResponse.new(@res1)
 
     sr.found.should eq(1)
     sr.start.should eq(0)

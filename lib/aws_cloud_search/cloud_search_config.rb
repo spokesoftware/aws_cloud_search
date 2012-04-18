@@ -1,4 +1,4 @@
-module AwsCloudSearch
+module AWSCloudSearch
   class CloudSearchConfig
 
   end

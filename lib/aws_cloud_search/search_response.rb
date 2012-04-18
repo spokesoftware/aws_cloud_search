@@ -1,4 +1,4 @@
-module AwsCloudSearch
+module AWSCloudSearch
   class SearchResponse
     attr_reader :response
     attr_reader :hits

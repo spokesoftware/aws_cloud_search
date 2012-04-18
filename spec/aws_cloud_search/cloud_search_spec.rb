@@ -1,19 +1,19 @@
 require 'spec_helper'
 
-describe AwsCloudSearch::CloudSearch do
+describe AWSCloudSearch::CloudSearch do
 
-  let(:ds) { AwsCloudSearch::CloudSearch.new('spoke-dev-1-na4eszv5wms3lahf4xnq27x6ym') }
+  let(:ds) { AWSCloudSearch::CloudSearch.new('') }
 
   it "should send document batch" do
-    batch = AwsCloudSearch::DocumentBatch.new
+    batch = AWSCloudSearch::DocumentBatch.new
     
-    doc1 = AwsCloudSearch::Document.new(true)
+    doc1 = AWSCloudSearch::Document.new(true)
     doc1.id = Time.now.to_i.to_s
     doc1.lang = 'en'
     doc1.add_field('name', 'Jane Williams')
     doc1.add_field('type', 'person')
 
-    doc2 = AwsCloudSearch::Document.new(true)
+    doc2 = AWSCloudSearch::Document.new(true)
     doc2.id = Time.now.to_i.to_s
     doc2.lang = 'en'
     doc2.add_field(:name, 'Bob Dobalina')
@@ -29,8 +29,8 @@ describe AwsCloudSearch::CloudSearch do
 
   it "should delete a document" do
     id = 'joeblotzdelete_test'
-    batch1 = AwsCloudSearch::DocumentBatch.new
-    doc1 = AwsCloudSearch::Document.new(true)
+    batch1 = AWSCloudSearch::DocumentBatch.new
+    doc1 = AWSCloudSearch::Document.new(true)
     doc1.id = id
     doc1.lang = 'en'
     doc1.add_field('name', 'Joe Blotz Delete Test')
@@ -38,17 +38,17 @@ describe AwsCloudSearch::CloudSearch do
     batch1.add_document doc1
     ds.documents_batch(batch1)
 
-    batch2 = AwsCloudSearch::DocumentBatch.new
-    doc2 = AwsCloudSearch::Document.new(true)
+    batch2 = AWSCloudSearch::DocumentBatch.new
+    doc2 = AWSCloudSearch::Document.new(true)
     doc2.id = id
     batch2.delete_document doc2
     ds.documents_batch(batch2)
   end
 
   it "should raise ArgumentError for invalid XML 1.0 chars" do
-    batch = AwsCloudSearch::DocumentBatch.new
+    batch = AWSCloudSearch::DocumentBatch.new
 
-    doc1 = AwsCloudSearch::Document.new(true)
+    doc1 = AWSCloudSearch::Document.new(true)
     id = Time.now.to_i.to_s
     doc1.id = id
     doc1.lang = 'en'
@@ -60,7 +60,7 @@ describe AwsCloudSearch::CloudSearch do
 
     #expect { batch.add_document doc1 }.to raise_error(ArgumentError)
 
-    doc2 = AwsCloudSearch::Document.new(true)
+    doc2 = AWSCloudSearch::Document.new(true)
     id = Time.now.to_i.to_s
     doc2.id = id
     doc2.lang = 'en'
@@ -76,11 +76,11 @@ describe AwsCloudSearch::CloudSearch do
 
 
   it "should return a DocumentBatcher instance for new_batcher" do
-    ds.new_batcher.should be_an(AwsCloudSearch::DocumentBatcher)
+    ds.new_batcher.should be_an(AWSCloudSearch::DocumentBatcher)
   end
 
   it "should search" do
-    sr = AwsCloudSearch::SearchRequest.new
+    sr = AWSCloudSearch::SearchRequest.new
     sr.bq = "(and name:'Jane')"
     sr.return_fields = %w(logo_url name type)
     sr.size = 10
@@ -89,7 +89,7 @@ describe AwsCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_an(AwsCloudSearch::SearchResponse)
+    res.should be_an(AWSCloudSearch::SearchResponse)
   end
 
 end

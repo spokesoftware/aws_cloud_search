@@ -1,7 +1,7 @@
 require "json"
 require "aws_cloud_search"
 
-module AwsCloudSearch
+module AWSCloudSearch
   class DocumentBatch
 
     attr_reader :bytesize
@@ -22,7 +22,7 @@ module AwsCloudSearch
 
     # Adds a document with the add operation to the batch.
     # @param [Document] doc
-    # @raise [ArgumentError] If parameter is not an AwsCloudSearch::Document
+    # @raise [ArgumentError] If parameter is not an AWSCloudSearch::Document
     def add_document(doc)
       raise ArgumentError.new("Invalid Type") unless doc.is_a? Document
 
@@ -40,7 +40,7 @@ module AwsCloudSearch
     # Adds a delete document operation to the batch. Removes lang and fields from the object as they are not
     # required for delete operations.
     # @param [Document] doc The document to delete
-    # @raise [ArgumentError] If parameter is not an AwsCloudSearch::Document
+    # @raise [ArgumentError] If parameter is not an AWSCloudSearch::Document
     # TODO: refactor to only use the required fields, hide the document construction from the user
     def delete_document(doc)
       raise ArgumentError.new("Invalid Type") unless doc.is_a? Document

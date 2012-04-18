@@ -1,4 +1,4 @@
-module AwsCloudSearch
+module AWSCloudSearch
   # Cloud Search API errors
   class AwsCloudSearchError < StandardError; end
   class WildcardTermLimit < AwsCloudSearchError; end
