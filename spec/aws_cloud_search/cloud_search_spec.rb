@@ -13,19 +13,16 @@ describe AWSCloudSearch::CloudSearch do
     batch = AWSCloudSearch::DocumentBatch.new
     
     doc1 = AWSCloudSearch::Document.new(true)
-    doc1.id = Time.now.to_i.to_s
+    doc1.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
     doc1.lang = 'en'
     doc1.add_field('name', 'Jane Williams')
     doc1.add_field('type', 'person')
 
     doc2 = AWSCloudSearch::Document.new(true)
-    doc2.id = Time.now.to_i.to_s
+    doc2.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
     doc2.lang = 'en'
-    doc2.add_field(:name, 'Bob Dobalina')
-    doc2.add_field(:type, 'person')
-    doc2.add_field(:summary, nil)
-    doc2.add_field(:num_links, nil)
-
+    doc2.add_field :name, 'Bob Dobalina'
+    doc2.add_field :type, 'person'
 
     batch.add_document doc1
     batch.add_document doc2
