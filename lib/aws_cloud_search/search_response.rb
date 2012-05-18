@@ -6,7 +6,7 @@ module AWSCloudSearch
     alias :results :hits
 
     # error is an undocumented field that occurs when an error is returned
-    FIELDS = [ :match_expr, :rank, :cpu_time_ms, :time_ms, :rid, :found, :start, :error, :messages ].freeze
+    FIELDS = [ :match_expr, :rank, :cpu_time_ms, :time_ms, :rid, :found, :start, :error, :messages, :facets ].freeze
     FIELDS.each { |f| attr_accessor f }
 
     # Takes in the hash, representing the json object returned from a search request
