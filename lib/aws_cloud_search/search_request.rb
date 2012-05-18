@@ -43,15 +43,16 @@ module AWSCloudSearch
     # Returns the hash of all the values for this SearchRequest. Useful for creating URL params.
     # @return [Hash] The object converted to a Hash
     def to_hash
-      @hash['q']     = @q unless @q.nil?
-      @hash['bq']    = @bq unless @bq.nil?
-      @hash['rank']  = @rank unless @rank.nil?
-      @hash['size']  = @size unless @size.nil?
-      @hash['start'] = @start unless @start.nil?
-      @hash['results-type']  = @results_type unless @results_type.nil?
-      @hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
-      @hash['facet'] = @facet unless @facet.nill?
-      @hash.merge(@facet_constraints).merge(@facet_sort).merge(@facet_top_n).merge(@t)
+      hash = {}
+      hash['q']     = @q unless @q.nil?
+      hash['bq']    = @bq unless @bq.nil?
+      hash['rank']  = @rank unless @rank.nil?
+      hash['size']  = @size unless @size.nil?
+      hash['start'] = @start unless @start.nil?
+      hash['results-type']  = @results_type unless @results_type.nil?
+      hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
+      hash['facet'] = @facet unless @facet.nil?
+      hash.merge(@facet_constraints).merge(@facet_sort).merge(@facet_top_n).merge(@t)
     end
 
   end

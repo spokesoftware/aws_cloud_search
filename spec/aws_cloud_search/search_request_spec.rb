@@ -21,4 +21,10 @@ describe AWSCloudSearch::SearchResponse do
     end
   end
 
+  context "#to_hash" do
+    it "should return an empty hash" do
+      search_req.to_hash.should eq({})
+    end
+  end
+
 end
