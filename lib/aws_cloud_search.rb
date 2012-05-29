@@ -20,11 +20,11 @@ module AWSCloudSearch
 
 
   def self.search_url(domain, region="us-east-1")
-    "http://search-#{domain}.#{region}.cloudsearch.amazonaws.com"
+    "http://search-#{domain}-#{region}.cloudsearch.amazonaws.com"
   end
 
   def self.document_url(domain, region="us-east-1")
-    "http://doc-#{domain}.#{region}.cloudsearch.amazonaws.com"
+    "http://doc-#{domain}-#{region}.cloudsearch.amazonaws.com"
   end
 
   def self.configuration_url
