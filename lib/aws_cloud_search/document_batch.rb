@@ -31,7 +31,7 @@ module AWSCloudSearch
       doc_bytesize = json.bytesize
 
       raise Exception.new("Max batch size exceeded, document add was not added to batch.") if (doc_bytesize + @bytesize) > @max_bytesize
-      raise ArgumentError.new("Found invalid XML 1.0 unicode characters.") if json =~ INVALID_CHAR_XML10
+      # raise ArgumentError.new("Found invalid XML 1.0 unicode characters.") if json =~ INVALID_CHAR_XML10
 
       @bytesize += doc_bytesize
       @batch_add << doc
