@@ -51,6 +51,13 @@ module AWSCloudSearch
     connection
   end
 
+  # Escape single-quote and backslash chars in the str so that the resulting string is suitable as a query argument.
+  # @param [Object] str
+  def self.escape(str)
+    return str if (str.nil? or not str.is_a? String)
+    str.gsub(/\\/, "\\\\\\").gsub(/'/, "\\\\'")
+  end
+
   class HttpCodeResponseMiddleware < Faraday::Response::Middleware
     def on_complete(env)
       case env[:status]

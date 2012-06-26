@@ -75,8 +75,6 @@ describe AWSCloudSearch::CloudSearch do
 
   end
 
-
-
   it "should return a DocumentBatcher instance for new_batcher" do
     ds.new_batcher.should be_an(AWSCloudSearch::DocumentBatcher)
   end
@@ -92,6 +90,36 @@ describe AWSCloudSearch::CloudSearch do
     res = ds.search(sr)
 
     res.should be_an(AWSCloudSearch::SearchResponse)
+  end
+
+  context "boolean search" do
+    it "should escape backslashes" do
+      sr = AWSCloudSearch::SearchRequest.new
+      name = AWSCloudSearch.escape('P\\C\\L Financial Group')
+      sr.bq = "(and name:'#{name}')"
+      sr.return_fields = %w(logo_url name type)
+      sr.size = 10
+      sr.start = 0
+      sr.results_type = 'json'
+
+      res = ds.search(sr)
+
+      res.should be_an(AWSCloudSearch::SearchResponse)
+    end
+
+    it "should escape single quotes" do
+      sr = AWSCloudSearch::SearchRequest.new
+      name = AWSCloudSearch.escape('Kellogg\'s')
+      sr.bq = "(and name:'#{name}')"
+      sr.return_fields = %w(logo_url name type)
+      sr.size = 10
+      sr.start = 0
+      sr.results_type = 'json'
+
+      res = ds.search(sr)
+
+      res.should be_an(AWSCloudSearch::SearchResponse)
+    end
   end
 
 end
