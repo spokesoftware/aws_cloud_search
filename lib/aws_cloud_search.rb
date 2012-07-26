@@ -18,17 +18,25 @@ module AWSCloudSearch
   # for future reference in case AWS-CS updates to XML 1.1 char compliance
   #INVALID_CHAR_XML11 = /[^\u0001-\uD7FF\uE000-\uFFFD]/m
 
+  DEFAULT_OPTIONS = {
+    region: 'us-east-1',
+    endpoint_base_domain: 'cloudsearch.amazonaws.com',
+    configuration_url: 'https://cloudsearch.us-east-1.amazonaws.com'
+  }.freeze
 
-  def self.search_url(domain, region="us-east-1")
-    "http://search-#{domain}.#{region}.cloudsearch.amazonaws.com"
+  def self.search_url(domain, options={})
+    options = DEFAULT_OPTIONS.merge(options)
+    "http://search-#{domain}.#{options[:region]}.#{options[:endpoint_base_domain]}"
   end
 
-  def self.document_url(domain, region="us-east-1")
-    "http://doc-#{domain}.#{region}.cloudsearch.amazonaws.com"
+  def self.document_url(domain, options={})
+    options = DEFAULT_OPTIONS.merge(options)
+    "http://doc-#{domain}.#{options[:region]}.#{options[:endpoint_base_domain]}"
   end
 
-  def self.configuration_url
-    "https://cloudsearch.us-east-1.amazonaws.com"
+  def self.configuration_url(options={})
+    options = DEFAULT_OPTIONS.merge(options)
+    options[:configuration_url]
   end
 
   # Initialize the module
