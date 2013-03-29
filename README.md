@@ -34,7 +34,44 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+*Note*: work in progress
+
+
+1. Initialize the library
+
+```ruby
+ds = AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN'])
+```
+
+2. Create some documents. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
+
+```ruby
+doc1 = AWSCloudSearch::Document.new(true)
+doc1.id = '12345677890abcef'
+doc1.lang = 'en'
+doc1.add_field('name', 'Jane Williams')
+doc1.add_field('type', 'person')
+
+doc2 = AWSCloudSearch::Document.new(true)
+doc2.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
+doc2.lang = 'en'
+doc2.add_field :name, 'Bob Dobalina'
+doc2.add_field :type, 'person'
+```
+
+3. Create a new document batch
+
+```ruby
+batch = AWSCloudSearch::DocumentBatch.new    
+batch.add_document doc1
+batch.add_document doc2
+```
+
+4. Send the document batch
+
+```ruby
+ds.documents_batch(batch)
+```
 
 ## Contributing
 
