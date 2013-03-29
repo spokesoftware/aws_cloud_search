@@ -37,29 +37,30 @@ Or install it yourself as:
 *Note*: work in progress
 
 
-1. Initialize the library
+###Initialize the library
 
 ```ruby
 ds = AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN'])
 ```
 
-2. Create some documents. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
+###Create some documents
+Since AWS charges per batch, it is best to batch as many documents as you can in each bathc. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
 
 ```ruby
 doc1 = AWSCloudSearch::Document.new(true)
-doc1.id = '12345677890abcef'
+doc1.id = '12345677890abcdef'
 doc1.lang = 'en'
 doc1.add_field('name', 'Jane Williams')
 doc1.add_field('type', 'person')
 
 doc2 = AWSCloudSearch::Document.new(true)
-doc2.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
+doc2.id = '588687626634767634'
 doc2.lang = 'en'
 doc2.add_field :name, 'Bob Dobalina'
 doc2.add_field :type, 'person'
 ```
 
-3. Create a new document batch
+###Add documents to a new document batch
 
 ```ruby
 batch = AWSCloudSearch::DocumentBatch.new    
@@ -67,7 +68,14 @@ batch.add_document doc1
 batch.add_document doc2
 ```
 
-4. Send the document batch
+###Include document deletes to your document batch
+```ruby
+doc3 = AWSCloudSearch::Document.new(true)
+doc3.id = 'fedcba0987654321'
+batch.delete_document doc3
+```
+
+###Send the document batch
 
 ```ruby
 ds.documents_batch(batch)
