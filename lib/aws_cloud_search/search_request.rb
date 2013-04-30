@@ -5,7 +5,7 @@ module AWSCloudSearch
     attr_accessor :facet_constraints, :facet_sort, :facet_top_n, :t
 
     def initialize
-      @facet_constraints, @facet_sort, @facet_top_n, @t = {}, {}, {}, {}
+      @facet_constraints, @facet_sort, @facet_top_n, @t, @rank_expressions = {}, {}, {}, {}, {}
     end
 
     # Specifies the facet constraints for a field
@@ -40,6 +40,21 @@ module AWSCloudSearch
       @t["t-#{field}"] = "#{t_from}..#{t_to}"
     end
 
+    # Adds a query time rank expression to the query. In order to use this rank expression, you are still required to
+    # include it in the rank value.
+    #
+    # All expression names passed to this method are prefixed by 'rank-'
+    # For instance passing in 'expression1' will use 'rank-expression1' in the query to AWS CloudSearch.
+    #
+    # For more information please see:
+    # http://docs.aws.amazon.com/cloudsearch/latest/developerguide/rankexpressionquery.html
+    #
+    # @param [String] expression_name The name of the query time rank expression
+    # @param [String] value The rank expression
+    def add_rank_expression(expression_name, value)
+      @rank_expressions['rank-'+expression_name] = value
+    end
+
     # Returns the hash of all the values for this SearchRequest. Useful for creating URL params.
     # @return [Hash] The object converted to a Hash
     def to_hash
@@ -52,6 +67,7 @@ module AWSCloudSearch
       hash['results-type']  = @results_type unless @results_type.nil?
       hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
       hash['facet'] = @facet unless @facet.nil?
+      hash.merge(@rank_expressions)
       hash.merge(@facet_constraints).merge(@facet_sort).merge(@facet_top_n).merge(@t)
     end
 
