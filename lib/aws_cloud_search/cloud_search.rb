@@ -25,6 +25,8 @@ module AWSCloudSearch
     end
 
     # Performs a search
+    # Note that for strings in the search criteria, any single quotation marks or backslashes in the string must
+    # be escaped with a backslash.  The #escape method is provided as a convenience to perform the required escaping.
     # @param [SearchRequest] search_req
     # @return
     def search(search_req)
