@@ -67,12 +67,7 @@ module AWSCloudSearch
       hash['results-type']  = @results_type unless @results_type.nil?
       hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
       hash['facet'] = @facet unless @facet.nil?
-      hash
-        .merge(@facet_constraints)
-        .merge(@facet_sort)
-        .merge(@facet_top_n)
-        .merge(@t)
-        .merge(@rank_expressions)
+      hash.merge(@facet_constraints).merge(@facet_sort).merge(@facet_top_n).merge(@t).merge(@rank_expressions)
     end
 
   end
