@@ -61,6 +61,11 @@ module AWSCloudSearch
       @batch_add.size + @batch_delete.size
     end
 
+    # @return [Boolean] True if the batch contains no items
+    def empty?
+      size == 0
+    end
+
     # @return [Boolean] True if the bytesize of the batch exceeds the preferred bytesize
     def full?
       @bytesize >= @pref_bytesize

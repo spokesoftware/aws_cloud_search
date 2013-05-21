@@ -111,4 +111,19 @@ describe AWSCloudSearch::DocumentBatch do
     clear_batch.size.should eq(0)
   end
 
+  context "#empty?" do
+    it "should return true when the batch contains no documents" do
+      batch.empty?.should be_true
+    end
+
+    it "should return false when the batch contains documents to add" do
+      batch.add_document sample_add_doc
+      batch.empty?.should be_false
+    end
+
+    it "should return false when the batch contains documents to delete" do
+      batch.delete_document sample_delete_doc
+      batch.empty?.should be_false
+    end
+  end
 end
