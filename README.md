@@ -44,7 +44,7 @@ ds = AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN'])
 ```
 
 ###Create some documents
-Since AWS charges per batch, it is best to batch as many documents as you can in each bathc. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
+Since AWS charges per batch, it is best to batch as many documents as you can in each batch. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
 
 ```ruby
 doc1 = AWSCloudSearch::Document.new(true)
