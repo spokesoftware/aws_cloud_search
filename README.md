@@ -40,8 +40,14 @@ Or install it yourself as:
 ###Initialize the library
 
 ```ruby
-ds = AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN'])
+# if your CloudSearch domain is in the us-east-1 region and availability zone
+ds = AWSCloudSearch::CloudSearch.new('your-domain-name-53905x4594jxty')
+
+# if your CloudSearch domain is in a different AWS region and/or availability zone
+ds = AWSCloudSearch::CloudSearch.new('your-domain-53905x4594jxty', 'us-west-2')
 ```
+
+Better yet, store those values in a YAML configuration file or in environment variables.
 
 ###Create some documents
 Since AWS charges per batch, it is best to batch as many documents as you can in each batch. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
