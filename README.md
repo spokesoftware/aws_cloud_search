@@ -2,15 +2,19 @@
 
 ## Description
 
-This gem is an implementation of the Amazon Web Service CloudSearch API (http://aws.amazon.com/cloudsearch/).
+This gem is an implementation of the [Amazon Web Service CloudSearch API](http://aws.amazon.com/cloudsearch/).
 
-The AWS CloudSearch service is comprised of three API end points: search, document batching, and configuration. This gem
-currently supports only the search and document batching APIs
+The AWS CloudSearch service is comprised of three API end-points:
+
+* search
+* document batching
+* configuration
+
+This gem currently supports only the search and document batching APIs. To access the CloudSearch configuration API from Ruby, use the aws-sdk gem](https://github.com/aws/aws-sdk-ruby).
 
 ## Roadmap
 
-Spoke developed this library in a short period of time in order to migrate from IndexTank to AWS CloudSearch.
-As such, there are a few features that are missing that we would like to build over time.
+Spoke developed this library in a short period of time in order to migrate from [IndexTank](https://github.com/linkedin/indextank-engine) to AWS CloudSearch. As such, there are a few features that are missing that we would like to build over time.
 
 + Implementation of the configuration API
 + Query builder
@@ -98,3 +102,7 @@ ds.documents_batch(batch)
 ## Version History
 
 0.0.2 Added support for faceting
+
+## See Also
+* [cloud_search gem](https://github.com/willian/cloud_search): another Ruby wrapper for the CloudSearch API
+* [aws-sdk gem](https://github.com/aws/aws-sdk-ruby): Amazon's official Ruby wrapper for AWS APIs
