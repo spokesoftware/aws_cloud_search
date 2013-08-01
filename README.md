@@ -10,7 +10,7 @@ The AWS CloudSearch service is comprised of three API end-points:
 * document batching
 * configuration
 
-This gem currently supports only the search and document batching APIs. To access the CloudSearch configuration API from Ruby, use the aws-sdk gem](https://github.com/aws/aws-sdk-ruby).
+This gem currently supports only the search and document batching APIs. To access the CloudSearch configuration API from Ruby, use the [aws-sdk gem](https://github.com/aws/aws-sdk-ruby).
 
 ## Roadmap
 
