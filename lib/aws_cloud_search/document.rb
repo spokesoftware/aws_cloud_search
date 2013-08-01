@@ -64,10 +64,13 @@ module AWSCloudSearch
       h = {
           :type => @type,
           :id => @id,
-          :version => @version,
-          :fields => @fields
+          :version => @version
       }
-      h[:lang] = @lang unless (@type == 'delete')
+
+      unless @type == 'delete'
+        h[:fields] = @fields 
+        h[:lang] = @lang
+      end
 
       h      
     end
