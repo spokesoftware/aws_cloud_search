@@ -91,6 +91,32 @@ batch.delete_document doc3
 ds.documents_batch(batch)
 ```
 
+###Searching Text Fields with the Query Parameter
+See the [related CloudSearch documentation](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.text.html#searching.text.q)
+
+````ruby
+search_request = AWSCloudSearch::SearchRequest.new
+search_request.q = "Bob"
+search_results = ds.search(search_request)
+search_results.hits.each do |hit|
+  puts hit['id']
+  puts hit['name']
+end
+````
+
+###Searching Literal Fields with a Boolean Query
+See the [related CloudSearch documentation](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.literal.html)
+
+```ruby
+search_request = AWSCloudSearch::SearchRequest.new
+search_request.bq = "type:'person'"
+search_results = ds.search(search_request)
+search_results.hits.each do |hit|
+  puts hit['id']
+  puts hit['name']
+end
+```
+
 ## Contributing
 
 1. Fork it
