@@ -131,4 +131,5 @@ end
 
 ## See Also
 * [cloud_search gem](https://github.com/willian/cloud_search): another Ruby wrapper for the CloudSearch API
+* [asari gem](https://github.com/duwanis/asari): and another Ruby wrapper for the CloudSearch API
 * [aws-sdk gem](https://github.com/aws/aws-sdk-ruby): Amazon's official Ruby wrapper for AWS APIs
