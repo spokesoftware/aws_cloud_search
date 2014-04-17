@@ -145,6 +145,7 @@ end
 
 ## Version History
 
+0.0.5 Added simple support for changing API version (luke_redoot)
 0.0.2 Added support for faceting
 
 ## See Also
