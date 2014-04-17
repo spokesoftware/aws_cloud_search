@@ -60,14 +60,16 @@ then specify both domain in env variables when running the test
 ###Initialize the library
 
 ```ruby
-# if your CloudSearch domain is in the us-east-1 region and availability zone
-ds = AWSCloudSearch::CloudSearch.new('your-domain-name-53905x4594jxty')
+# configure the gem, all three are required
+AWSCloudSearch.configure do |config|
+  config.domain = 'domain-bwasbvubrj4kmybx5gyfgu5vfq'
+  config.region = 'us-east-1'
+  config.api_version = '2011-02-01'
+end
 
-# if your CloudSearch domain is in a different AWS region and/or availability zone
-ds = AWSCloudSearch::CloudSearch.new('your-domain-53905x4594jxty', 'us-west-2')
+# inititalize the data store
+ds = AWSCloudSearch::CloudSearch.new
 ```
-
-Better yet, store those values in a YAML configuration file or in environment variables.
 
 ###Create some documents
 Since AWS charges per batch, it is best to batch as many documents as you can in each batch. `Document#new` takes an optional parameter `auto_version` which you set to true to automatically set the version, the default value is false.
