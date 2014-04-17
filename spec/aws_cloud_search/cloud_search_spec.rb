@@ -11,7 +11,7 @@ describe AWSCloudSearch::CloudSearch do
     AWSCloudSearch.configure do |config|
       config.api_version = '2011-02-01'
       config.region      = 'us-east-1'
-      config.domain      = ENV['2011_CLOUDSEARCH_DOMAIN']
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2011']
     end
   end
 
@@ -41,7 +41,7 @@ describe AWSCloudSearch::CloudSearch do
 
     AWSCloudSearch.configure do |config|
       config.api_version = '2013-01-01'
-      config.domain      = ENV['2013_CLOUDSEARCH_DOMAIN']
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
     end
 
     batch = AWSCloudSearch::DocumentBatch.new
@@ -85,7 +85,7 @@ describe AWSCloudSearch::CloudSearch do
 
     AWSCloudSearch.configure do |config|
       config.api_version = '2013-01-01'
-      config.domain      = ENV['2013_CLOUDSEARCH_DOMAIN']
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
     end
 
     id = 'joeblotzdelete_test'
@@ -137,10 +137,24 @@ describe AWSCloudSearch::CloudSearch do
     ds.new_batcher.should be_an(AWSCloudSearch::DocumentBatcher)
   end
 
-  it "should search" do
+  it "should search for '2011-02-01' domain version" do
+    sr = AWSCloudSearch::SearchRequest.new
+    sr.q = "Jane"
+    sr.return_fields = %w(logo_url name type)
+    sr.size = 10
+    sr.start = 0
+    sr.results_type = 'json'
+
+    res = ds.search(sr)
+
+    res.should be_an(AWSCloudSearch::SearchResponse)
+  end
+
+
+  it "should boolean search for '2011-02-01' domain version" do
     sr = AWSCloudSearch::SearchRequest.new
     sr.bq = "(and name:'Jane')"
-    sr.return_fields = %w(logo_url name type)
+    sr.return_fields = %w(num_links name type)
     sr.size = 10
     sr.start = 0
     sr.results_type = 'json'
@@ -154,15 +168,35 @@ describe AWSCloudSearch::CloudSearch do
 
     AWSCloudSearch.configure do |config|
       config.api_version = '2013-01-01'
-      config.domain      = ENV['2013_CLOUDSEARCH_DOMAIN']
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
     end
 
     sr = AWSCloudSearch::SearchRequest.new
-    sr.bq = "(and name:'Jane')"
-    sr.return = %w(logo_url name type)
+    sr.q = 'Jane'
+    sr.return_fields = %w(num_links name type)
     sr.size = 10
     sr.start = 0
-    sr.results_type = 'json'
+    sr.format = 'json'
+
+    res = ds.search(sr)
+
+    res.should be_an(AWSCloudSearch::SearchResponse)
+  end
+
+  it "should structured search for '2013-01-01' domain version" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
+    end
+
+    sr = AWSCloudSearch::SearchRequest.new
+    sr.q = "(and name:'Jane')"
+    sr.query_parser = 'structured'
+    sr.return_fields = %w(num_links name type)
+    sr.size = 10
+    sr.start = 0
+    sr.format = 'json'
 
     res = ds.search(sr)
 
@@ -170,33 +204,15 @@ describe AWSCloudSearch::CloudSearch do
   end
 
 
-  context "boolean search" do
+  context "escape" do
     it "should escape backslashes" do
-      sr = AWSCloudSearch::SearchRequest.new
       name = AWSCloudSearch.escape('P\\C\\L Financial Group')
-      sr.bq = "(and name:'#{name}')"
-      sr.return_fields = %w(logo_url name type)
-      sr.size = 10
-      sr.start = 0
-      sr.results_type = 'json'
-
-      res = ds.search(sr)
-
-      res.should be_an(AWSCloudSearch::SearchResponse)
+      name.should eql('P\\\\C\\\\L Financial Group')
     end
 
     it "should escape single quotes" do
-      sr = AWSCloudSearch::SearchRequest.new
       name = AWSCloudSearch.escape('Kellogg\'s')
-      sr.bq = "(and name:'#{name}')"
-      sr.return_fields = %w(logo_url name type)
-      sr.size = 10
-      sr.start = 0
-      sr.results_type = 'json'
-
-      res = ds.search(sr)
-
-      res.should be_an(AWSCloudSearch::SearchResponse)
+      name.should eql("Kellogg\\'s")
     end
   end
 

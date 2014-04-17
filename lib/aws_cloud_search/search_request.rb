@@ -1,7 +1,7 @@
 module AWSCloudSearch
   class SearchRequest
 
-    attr_accessor :q, :bq, :rank, :results_type, :return_fields, :size, :start, :facet
+    attr_accessor :q, :rank, :return_fields, :size, :start, :facet
     attr_accessor :facet_constraints, :facet_sort, :facet_top_n, :t
 
     def initialize
@@ -55,19 +55,75 @@ module AWSCloudSearch
       @rank_expressions['rank-'+expression_name] = value
     end
 
+    def bq=(str)
+      valid_for_api_version!("2011-02-01")
+      @bq = str
+    end
+
+    def bq
+      valid_for_api_version!("2011-02-01")
+      @bq
+    end
+
+    def results_type=(str)
+      valid_for_api_version!("2011-02-01")
+      @results_type = str
+    end
+
+    def results_type
+      valid_for_api_version!("2011-02-01")
+      @results_type
+    end
+
+    def query_parser=(parser)
+      valid_for_api_version!("2013-01-01")
+      @query_parser = parser
+    end
+
+    def query_parser
+      valid_for_api_version!("2013-01-01")
+      @query_parser
+    end
+
+    def format=(format)
+      valid_for_api_version!("2013-01-01")
+      @format = format
+    end
+
+    def format
+      valid_for_api_version!("2013-01-01")
+      @format
+    end
+
     # Returns the hash of all the values for this SearchRequest. Useful for creating URL params.
     # @return [Hash] The object converted to a Hash
     def to_hash
       hash = {}
       hash['q']     = @q unless @q.nil?
-      hash['bq']    = @bq unless @bq.nil?
+
       hash['rank']  = @rank unless @rank.nil?
       hash['size']  = @size unless @size.nil?
       hash['start'] = @start unless @start.nil?
       hash['results-type']  = @results_type unless @results_type.nil?
-      hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
+
+      if AWSCloudSearch.config.api_version == '2011-02-01'
+        hash['bq']    = @bq unless @bq.nil?
+        hash['return-fields'] = @return_fields.join(',') unless @return_fields.nil?
+        hash['results-type']  = @results_type unless @results_type.nil?
+      elsif AWSCloudSearch.config.api_version == '2013-01-01'
+        hash['q.parser'] = @query_parser unless @query_parser.nil?
+        hash['return'] = @return_fields.join(',') unless @return_fields.nil?
+        hash['format']  = @format unless @format.nil?
+      end
+
       hash['facet'] = @facet unless @facet.nil?
       hash.merge(@facet_constraints).merge(@facet_sort).merge(@facet_top_n).merge(@t).merge(@rank_expressions)
+    end
+
+    private
+
+    def valid_for_api_version!(version)
+      raise "This parameter is only allowed in API Version #{version}" unless AWSCloudSearch.config.api_version == version
     end
 
   end

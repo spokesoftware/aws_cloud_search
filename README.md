@@ -54,7 +54,7 @@ The tests are pretty horrible right now, you need to create a working cloudsearc
 
 then specify both domain in env variables when running the test
 
-    2011_CLOUDSEARCH_DOMAIN=test-a-plbebu2asyirmxnxpi2ybd5gly' 2013_CLOUDSEARCH_DOMAIN=test-b-plbebu2asyirmxnxpi2ybd5gly' bundle exec rake spec
+    CLOUDSEARCH_DOMAIN_V2011=test-gem-domain-bwasbvubrj4kmybx5gyfgu5vfq CLOUDSEARCH_DOMAIN_V2013=test-gem-domain-new-laem2ao4v2uki43idjertzbxye bundle exec rake spec
 
 
 ###Initialize the library
