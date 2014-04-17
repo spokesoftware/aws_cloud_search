@@ -1,5 +1,5 @@
 require "aws_cloud_search/cloud_search"
-require "aws_cloud_search/cloud_search_config"
+require "aws_cloud_search/configuration"
 require "aws_cloud_search/document"
 require "aws_cloud_search/document_batch"
 require "aws_cloud_search/document_batcher"
@@ -11,24 +11,18 @@ require "aws_cloud_search/version"
 require "faraday_middleware"
 
 module AWSCloudSearch
-  API_VERSION = "2011-02-01"
 
   # AWS CloudSearch only allows XML 1.0 valid characters
   INVALID_CHAR_XML10 = /[^\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]/m
   # for future reference in case AWS-CS updates to XML 1.1 char compliance
   #INVALID_CHAR_XML11 = /[^\u0001-\uD7FF\uE000-\uFFFD]/m
 
-
-  def self.search_url(domain, region="us-east-1")
-    "http://search-#{domain}.#{region}.cloudsearch.amazonaws.com"
+  def self.config
+    AWSCloudSearch::Configuration.instance
   end
 
-  def self.document_url(domain, region="us-east-1")
-    "http://doc-#{domain}.#{region}.cloudsearch.amazonaws.com"
-  end
-
-  def self.configuration_url
-    "https://cloudsearch.us-east-1.amazonaws.com"
+  def self.configure(&block)
+    block.call(self.config)
   end
 
   # Initialize the module

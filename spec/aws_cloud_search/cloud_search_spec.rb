@@ -7,11 +7,19 @@ require 'spec_helper'
 # - num_links: uint
 describe AWSCloudSearch::CloudSearch do
 
-  let(:ds) { AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN']) }
+  before(:each) do
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2011-02-01'
+      config.region      = 'us-east-1'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN']
+    end
+  end
+
+  let(:ds) { AWSCloudSearch::CloudSearch.new }
 
   it "should send document batch" do
     batch = AWSCloudSearch::DocumentBatch.new
-    
+
     doc1 = AWSCloudSearch::Document.new(true)
     doc1.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
     doc1.lang = 'en'

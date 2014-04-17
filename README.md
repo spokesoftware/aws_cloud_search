@@ -36,6 +36,7 @@ Or install it yourself as:
 
     $ gem install aws_cloud_search
 
+
 ## Usage
 
 *Note*: work in progress
