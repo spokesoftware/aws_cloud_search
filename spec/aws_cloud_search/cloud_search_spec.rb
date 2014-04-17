@@ -11,13 +11,13 @@ describe AWSCloudSearch::CloudSearch do
     AWSCloudSearch.configure do |config|
       config.api_version = '2011-02-01'
       config.region      = 'us-east-1'
-      config.domain      = ENV['CLOUDSEARCH_DOMAIN']
+      config.domain      = ENV['2011_CLOUDSEARCH_DOMAIN']
     end
   end
 
   let(:ds) { AWSCloudSearch::CloudSearch.new }
 
-  it "should send document batch" do
+  it "should send document batch for api version 2011-02-01" do
     batch = AWSCloudSearch::DocumentBatch.new
 
     doc1 = AWSCloudSearch::Document.new(true)
@@ -37,7 +37,57 @@ describe AWSCloudSearch::CloudSearch do
     ds.documents_batch(batch)
   end
 
-  it "should delete a document" do
+  it "should send document batch for api version 2013-01-01" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['2013_CLOUDSEARCH_DOMAIN']
+    end
+
+    batch = AWSCloudSearch::DocumentBatch.new
+
+    doc1 = AWSCloudSearch::Document.new(true)
+    doc1.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
+    doc1.lang = 'en'
+    doc1.add_field('name', 'Jane Williams')
+    doc1.add_field('type', 'person')
+
+    doc2 = AWSCloudSearch::Document.new(true)
+    doc2.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
+    doc2.lang = 'en'
+    doc2.add_field :name, 'Bob Dobalina'
+    doc2.add_field :type, 'person'
+
+    batch.add_document doc1
+    batch.add_document doc2
+    ds.documents_batch(batch)
+  end
+
+  it "should delete a document for '2011-02-01' version" do
+    id = 'joeblotzdelete_test'
+    batch1 = AWSCloudSearch::DocumentBatch.new
+    doc1 = AWSCloudSearch::Document.new(true)
+    doc1.id = id
+    doc1.lang = 'en'
+    doc1.add_field('name', 'Joe Blotz Delete Test')
+    doc1.add_field('type', 'person')
+    batch1.add_document doc1
+    ds.documents_batch(batch1)
+
+    batch2 = AWSCloudSearch::DocumentBatch.new
+    doc2 = AWSCloudSearch::Document.new(true)
+    doc2.id = id
+    batch2.delete_document doc2
+    ds.documents_batch(batch2)
+  end
+
+  it "should delete a document for '2013-01-01' version" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['2013_CLOUDSEARCH_DOMAIN']
+    end
+
     id = 'joeblotzdelete_test'
     batch1 = AWSCloudSearch::DocumentBatch.new
     doc1 = AWSCloudSearch::Document.new(true)
@@ -99,6 +149,26 @@ describe AWSCloudSearch::CloudSearch do
 
     res.should be_an(AWSCloudSearch::SearchResponse)
   end
+
+  it "should search for '2013-01-01' domain version" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['2013_CLOUDSEARCH_DOMAIN']
+    end
+
+    sr = AWSCloudSearch::SearchRequest.new
+    sr.bq = "(and name:'Jane')"
+    sr.return = %w(logo_url name type)
+    sr.size = 10
+    sr.start = 0
+    sr.results_type = 'json'
+
+    res = ds.search(sr)
+
+    res.should be_an(AWSCloudSearch::SearchResponse)
+  end
+
 
   context "boolean search" do
     it "should escape backslashes" do

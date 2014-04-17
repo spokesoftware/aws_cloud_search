@@ -42,6 +42,21 @@ Or install it yourself as:
 *Note*: work in progress
 
 
+## Tests
+
+The tests are pretty horrible right now, you need to create a working cloudsearch instead for both the 2011-02-01 and
+2013-01-01 API versions with the following fields
+
+    name: test
+    type: text
+    summary: text
+    num_links: uint/int
+
+then specify both domain in env variables when running the test
+
+    2011_CLOUDSEARCH_DOMAIN=test-a-plbebu2asyirmxnxpi2ybd5gly' 2013_CLOUDSEARCH_DOMAIN=test-b-plbebu2asyirmxnxpi2ybd5gly' bundle exec rake spec
+
+
 ###Initialize the library
 
 ```ruby
