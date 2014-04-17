@@ -18,18 +18,27 @@ module AWSCloudSearch
       raise ArgumentError.new("Invalid argument. Expected DocumentBatch, got #{doc_batch.class}.") unless doc_batch.is_a? DocumentBatch
       times = 0
       begin
-        resp = @doc_conn.post do |req|
-          req.url "/#{AWSCloudSearch::API_VERSION}/documents/batch"
-          req.headers['Content-Type'] = 'application/json'
-          req.body = doc_batch.to_json
-        end
-        raise(StandardError, "AwsCloudSearchCloud::DocumentService batch returned #{resp.body[:errors].size} errors: #{resp.body[:errors].join(';')}") if resp.body[:status] == 'error'
-        return resp.body
+        return documents_batch_execute(doc_batch)
       rescue Exception => e
         times += 1
         retry if retry_enabled && times < retries
         raise e
       end
+    end
+
+    # :nodoc:
+    def documents_batch_execute(doc_batch)
+      resp = @doc_conn.post do |req|
+        req.url "/#{AWSCloudSearch::API_VERSION}/documents/batch"
+        req.headers['Content-Type'] = 'application/json'
+        req.body = doc_batch.to_json
+      end
+
+      if resp.body[:status] == 'error'
+        raise(StandardError, "AwsCloudSearchCloud::DocumentService batch returned #{resp.body[:errors].size} errors: #{resp.body[:errors].join(';')}")
+      end
+
+      return resp.body
     end
 
     # Performs a search
