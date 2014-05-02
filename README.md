@@ -62,12 +62,14 @@ doc1.id = '12345677890abcdef'
 doc1.lang = 'en'
 doc1.add_field('name', 'Jane Williams')
 doc1.add_field('type', 'person')
+doc1.add_field('fav_console', 'PS Vita')
 
 doc2 = AWSCloudSearch::Document.new(true)
 doc2.id = '588687626634767634'
 doc2.lang = 'en'
 doc2.add_field :name, 'Bob Dobalina'
 doc2.add_field :type, 'person'
+doc2.add_field :fav_console, 'Super Famicom'
 ```
 
 ###Add documents to a new document batch
@@ -114,6 +116,28 @@ search_results = ds.search(search_request)
 search_results.hits.each do |hit|
   puts hit['id']
   puts hit['name']
+end
+```
+
+###Retrieving Facets
+See the [related CloudSearch documentation](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/faceting.html#getting-facet-info)
+
+```ruby
+search_request = AWSCloudSearch::SearchRequest.new
+search_request.q = "Bob"
+search_request.facet = :fav_console
+search_results = ds.search(search_request)
+search_results.hits.each do |hit|
+  puts hit['id']
+  puts hit['name']
+end
+
+search_results.facets.keys.each do |facet_key|
+  puts "facet field= #{facet_key}"
+  search_results.facets[facet_key]['constraints'].each do |constraint|
+    puts "\tfacet value= #{constraint['value']}"
+    puts "\tfacet count= #{constraint['count']}"
+  end
 end
 ```
 
