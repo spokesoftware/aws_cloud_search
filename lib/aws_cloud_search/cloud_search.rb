@@ -14,7 +14,7 @@ module AWSCloudSearch
     # @param [retry] retry Enable or disable retrying when error or exception is encountered
     # @param [retries] retries The number of times to try posting before raising an exception
     # @return
-    def documents_batch(doc_batch, retry=false, retries=3)
+    def documents_batch(doc_batch, retry_enabled=false, retries=3)
       raise ArgumentError.new("Invalid argument. Expected DocumentBatch, got #{doc_batch.class}.") unless doc_batch.is_a? DocumentBatch
       times = 0
       begin
@@ -23,11 +23,11 @@ module AWSCloudSearch
           req.headers['Content-Type'] = 'application/json'
           req.body = doc_batch.to_json
         end
-        raise(Exception, "AwsCloudSearchCloud::DocumentService batch returned #{resp.body[:errors].size} errors: #{resp.body[:errors].join(';')}") if resp.body[:status] == 'error'
+        raise(StandardError, "AwsCloudSearchCloud::DocumentService batch returned #{resp.body[:errors].size} errors: #{resp.body[:errors].join(';')}") if resp.body[:status] == 'error'
         return resp.body
       rescue Exception => e
         times += 1
-        retry if retry && times < retries
+        retry if retry_enabled && times < retries
         raise e
       end
     end
