@@ -37,16 +37,16 @@ describe AWSCloudSearch::DocumentBatch do
   end
 
   it "should not raise error when passed a Document" do
-    expect { batch.add_document(sample_add_doc) }.to_not raise_error(ArgumentError)
-    expect { batch.delete_document(sample_delete_doc) }.to_not raise_error(ArgumentError)
+    expect { batch.add_document(sample_add_doc) }.to_not raise_error
+    expect { batch.delete_document(sample_delete_doc) }.to_not raise_error
   end
 
   it "should return the correct size" do
     batch.add_document sample_add_doc
-    batch.size.should eq(1)
+    expect(batch.size).to eq(1)
 
     batch.delete_document sample_delete_doc
-    batch.size.should eq(2)
+    expect(batch.size).to eq(2)
   end
 
   it "should raise error when the max batch size is exceeded" do
@@ -60,41 +60,41 @@ describe AWSCloudSearch::DocumentBatch do
 
     b1 = AWSCloudSearch::DocumentBatch.new(bytesize)
     b1.add_document sample_add_doc
-    b1.full?.should be_true
+    expect(b1.full?).to be_truthy
 
     b2 = AWSCloudSearch::DocumentBatch.new(bytesize-1)
     b2.add_document sample_add_doc
-    b2.full?.should be_true
+    expect(b2.full?).to be_truthy
 
     bytesize = sample_delete_doc.to_json.bytesize
 
     b3 = AWSCloudSearch::DocumentBatch.new(bytesize)
     b3.delete_document sample_delete_doc
-    b3.full?.should be_true
+    expect(b3.full?).to be_truthy
 
     b4 = AWSCloudSearch::DocumentBatch.new(bytesize-1)
     b4.delete_document sample_delete_doc
-    b4.full?.should be_true
+    expect(b4.full?).to be_truthy
   end
 
   it "should return the total bytesize of all docs" do
-    batch.bytesize.should eq(0)
+    expect(batch.bytesize).to eq(0)
 
     batch.add_document sample_add_doc
     bytesize = sample_add_doc.to_json.bytesize
-    batch.bytesize.should eq(bytesize)
+    expect(batch.bytesize).to eq(bytesize)
 
     batch.delete_document sample_delete_doc
     bytesize += sample_delete_doc.to_json.bytesize
-    batch.bytesize.should eq(bytesize)
+    expect(batch.bytesize).to eq(bytesize)
   end
 
   it "should not be full" do
     batch.add_document sample_add_doc
-    batch.full?.should_not be_true
+    expect(batch.full?).to be_falsy
 
     batch.delete_document sample_add_doc
-    batch.full?.should_not be_true
+    expect(batch.full?).to be_falsy
   end
 
   it "should clear" do
@@ -102,28 +102,28 @@ describe AWSCloudSearch::DocumentBatch do
     clear_batch.add_document sample_add_doc
     clear_batch.delete_document sample_delete_doc
 
-    clear_batch.bytesize.should be > 0
-    clear_batch.size.should be > 0
+    expect(clear_batch.bytesize > 0).to be_truthy
+    expect(clear_batch.size > 0).to be_truthy
 
     clear_batch.clear
 
-    clear_batch.bytesize.should eq(0)
-    clear_batch.size.should eq(0)
+    expect(clear_batch.bytesize).to eq(0)
+    expect(clear_batch.size).to eq(0)
   end
 
   context "#empty?" do
     it "should return true when the batch contains no documents" do
-      batch.empty?.should be_true
+      expect(batch.empty?).to be_truthy
     end
 
     it "should return false when the batch contains documents to add" do
       batch.add_document sample_add_doc
-      batch.empty?.should be_false
+      expect(batch.empty?).to be_falsy
     end
 
     it "should return false when the batch contains documents to delete" do
       batch.delete_document sample_delete_doc
-      batch.empty?.should be_false
+      expect(batch.empty?).to be_falsy
     end
   end
 end

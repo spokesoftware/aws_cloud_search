@@ -11,15 +11,15 @@ describe AWSCloudSearch::Configuration do
       config.domain      = 'test-plbebu2asyirmxnxpi2ybd5gly'
     end
 
-    AWSCloudSearch.config.api_version.should eq("2011-02-01")
-    AWSCloudSearch.config.region.should eq("us-east-1")
-    AWSCloudSearch.config.domain.should eq("test-plbebu2asyirmxnxpi2ybd5gly")
+    expect(AWSCloudSearch.config.api_version).to eq("2011-02-01")
+    expect(AWSCloudSearch.config.region).to eq("us-east-1")
+    expect(AWSCloudSearch.config.domain).to eq("test-plbebu2asyirmxnxpi2ybd5gly")
 
     expected_base_path = "test-plbebu2asyirmxnxpi2ybd5gly.us-east-1.cloudsearch.amazonaws.com/2011-02-01"
 
-    AWSCloudSearch.config.base_path.should eq(expected_base_path)
-    AWSCloudSearch.config.search_url.should eq("http://search-#{expected_base_path}")
-    AWSCloudSearch.config.document_url.should eq("http://doc-#{expected_base_path}")
+    expect(AWSCloudSearch.config.base_path).to eq(expected_base_path)
+    expect(AWSCloudSearch.config.search_url).to eq("http://search-#{expected_base_path}")
+    expect(AWSCloudSearch.config.document_url).to eq("http://doc-#{expected_base_path}")
   end
 
 

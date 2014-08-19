@@ -134,7 +134,7 @@ describe AWSCloudSearch::CloudSearch do
   end
 
   it "should return a DocumentBatcher instance for new_batcher" do
-    ds.new_batcher.should be_an(AWSCloudSearch::DocumentBatcher)
+    expect(ds.new_batcher).to be_a AWSCloudSearch::DocumentBatcher
   end
 
   it "should search for '2011-02-01' domain version" do
@@ -147,7 +147,7 @@ describe AWSCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_an(AWSCloudSearch::SearchResponse)
+    expect(res).to be_a AWSCloudSearch::SearchResponse
   end
 
 
@@ -161,7 +161,7 @@ describe AWSCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_an(AWSCloudSearch::SearchResponse)
+    expect(res).to be_a AWSCloudSearch::SearchResponse
   end
 
   it "should search for '2013-01-01' domain version" do
@@ -180,7 +180,7 @@ describe AWSCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_an(AWSCloudSearch::SearchResponse)
+    expect(res).to be_a AWSCloudSearch::SearchResponse
   end
 
   it "should structured search for '2013-01-01' domain version" do
@@ -200,19 +200,19 @@ describe AWSCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_an(AWSCloudSearch::SearchResponse)
+    expect(res).to be_a AWSCloudSearch::SearchResponse
   end
 
 
   context "escape" do
     it "should escape backslashes" do
       name = AWSCloudSearch.escape('P\\C\\L Financial Group')
-      name.should eql('P\\\\C\\\\L Financial Group')
+      expect(name).to eql('P\\\\C\\\\L Financial Group')
     end
 
     it "should escape single quotes" do
       name = AWSCloudSearch.escape('Kellogg\'s')
-      name.should eql("Kellogg\\'s")
+      expect(name).to eql("Kellogg\\'s")
     end
   end
 

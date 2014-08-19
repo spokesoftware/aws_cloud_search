@@ -23,7 +23,7 @@ describe AWSCloudSearch::SearchRequest do
 
   context "#to_hash" do
     it "should return an empty hash" do
-      search_req.to_hash.should eq({})
+      expect(search_req.to_hash).to eq({})
     end
   end
 
