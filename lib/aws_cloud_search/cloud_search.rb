@@ -29,7 +29,7 @@ module AWSCloudSearch
     # :nodoc:
     def documents_batch_execute(doc_batch)
       resp = @doc_conn.post do |req|
-        req.url "/#{AWSCloudSearch::API_VERSION}/documents/batch"
+        req.url "/#{AWSCloudSearch.config.api_version}/documents/batch"
         req.headers['Content-Type'] = 'application/json'
         req.body = doc_batch.to_json
       end
