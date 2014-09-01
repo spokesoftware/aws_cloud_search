@@ -7,11 +7,19 @@ require 'spec_helper'
 # - num_links: uint
 describe AWSCloudSearch::CloudSearch do
 
-  let(:ds) { AWSCloudSearch::CloudSearch.new(ENV['CLOUDSEARCH_DOMAIN']) }
+  before(:each) do
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2011-02-01'
+      config.region      = 'us-east-1'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2011']
+    end
+  end
 
-  it "should send document batch" do
+  let(:ds) { AWSCloudSearch::CloudSearch.new }
+
+  it "should send document batch for api version 2011-02-01" do
     batch = AWSCloudSearch::DocumentBatch.new
-    
+
     doc1 = AWSCloudSearch::Document.new(true)
     doc1.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
     doc1.lang = 'en'
@@ -29,7 +37,57 @@ describe AWSCloudSearch::CloudSearch do
     ds.documents_batch(batch)
   end
 
-  it "should delete a document" do
+  it "should send document batch for api version 2013-01-01" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
+    end
+
+    batch = AWSCloudSearch::DocumentBatch.new
+
+    doc1 = AWSCloudSearch::Document.new(true)
+    doc1.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
+    doc1.lang = 'en'
+    doc1.add_field('name', 'Jane Williams')
+    doc1.add_field('type', 'person')
+
+    doc2 = AWSCloudSearch::Document.new(true)
+    doc2.id = Array.new( 8 ) { rand(256) }.pack('C*').unpack('H*').first
+    doc2.lang = 'en'
+    doc2.add_field :name, 'Bob Dobalina'
+    doc2.add_field :type, 'person'
+
+    batch.add_document doc1
+    batch.add_document doc2
+    ds.documents_batch(batch)
+  end
+
+  it "should delete a document for '2011-02-01' version" do
+    id = 'joeblotzdelete_test'
+    batch1 = AWSCloudSearch::DocumentBatch.new
+    doc1 = AWSCloudSearch::Document.new(true)
+    doc1.id = id
+    doc1.lang = 'en'
+    doc1.add_field('name', 'Joe Blotz Delete Test')
+    doc1.add_field('type', 'person')
+    batch1.add_document doc1
+    ds.documents_batch(batch1)
+
+    batch2 = AWSCloudSearch::DocumentBatch.new
+    doc2 = AWSCloudSearch::Document.new(true)
+    doc2.id = id
+    batch2.delete_document doc2
+    ds.documents_batch(batch2)
+  end
+
+  it "should delete a document for '2013-01-01' version" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
+    end
+
     id = 'joeblotzdelete_test'
     batch1 = AWSCloudSearch::DocumentBatch.new
     doc1 = AWSCloudSearch::Document.new(true)
@@ -76,12 +134,12 @@ describe AWSCloudSearch::CloudSearch do
   end
 
   it "should return a DocumentBatcher instance for new_batcher" do
-    ds.new_batcher.should be_an(AWSCloudSearch::DocumentBatcher)
+    expect(ds.new_batcher).to be_a AWSCloudSearch::DocumentBatcher
   end
 
-  it "should search" do
+  it "should search for '2011-02-01' domain version" do
     sr = AWSCloudSearch::SearchRequest.new
-    sr.bq = "(and name:'Jane')"
+    sr.q = "Jane"
     sr.return_fields = %w(logo_url name type)
     sr.size = 10
     sr.start = 0
@@ -89,36 +147,72 @@ describe AWSCloudSearch::CloudSearch do
 
     res = ds.search(sr)
 
-    res.should be_an(AWSCloudSearch::SearchResponse)
+    expect(res).to be_a AWSCloudSearch::SearchResponse
   end
 
-  context "boolean search" do
+
+  it "should boolean search for '2011-02-01' domain version" do
+    sr = AWSCloudSearch::SearchRequest.new
+    sr.bq = "(and name:'Jane')"
+    sr.return_fields = %w(num_links name type)
+    sr.size = 10
+    sr.start = 0
+    sr.results_type = 'json'
+
+    res = ds.search(sr)
+
+    expect(res).to be_a AWSCloudSearch::SearchResponse
+  end
+
+  it "should search for '2013-01-01' domain version" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
+    end
+
+    sr = AWSCloudSearch::SearchRequest.new
+    sr.q = 'Jane'
+    sr.return_fields = %w(num_links name type)
+    sr.size = 10
+    sr.start = 0
+    sr.format = 'json'
+
+    res = ds.search(sr)
+
+    expect(res).to be_a AWSCloudSearch::SearchResponse
+  end
+
+  it "should structured search for '2013-01-01' domain version" do
+
+    AWSCloudSearch.configure do |config|
+      config.api_version = '2013-01-01'
+      config.domain      = ENV['CLOUDSEARCH_DOMAIN_V2013']
+    end
+
+    sr = AWSCloudSearch::SearchRequest.new
+    sr.q = "(and name:'Jane')"
+    sr.query_parser = 'structured'
+    sr.return_fields = %w(num_links name type)
+    sr.size = 10
+    sr.start = 0
+    sr.format = 'json'
+
+    res = ds.search(sr)
+
+    expect(res).to be_a AWSCloudSearch::SearchResponse
+  end
+
+
+  context "escape" do
     it "should escape backslashes" do
-      sr = AWSCloudSearch::SearchRequest.new
       name = AWSCloudSearch.escape('P\\C\\L Financial Group')
-      sr.bq = "(and name:'#{name}')"
-      sr.return_fields = %w(logo_url name type)
-      sr.size = 10
-      sr.start = 0
-      sr.results_type = 'json'
-
-      res = ds.search(sr)
-
-      res.should be_an(AWSCloudSearch::SearchResponse)
+      expect(name).to eql('P\\\\C\\\\L Financial Group')
     end
 
     it "should escape single quotes" do
-      sr = AWSCloudSearch::SearchRequest.new
       name = AWSCloudSearch.escape('Kellogg\'s')
-      sr.bq = "(and name:'#{name}')"
-      sr.return_fields = %w(logo_url name type)
-      sr.size = 10
-      sr.start = 0
-      sr.results_type = 'json'
-
-      res = ds.search(sr)
-
-      res.should be_an(AWSCloudSearch::SearchResponse)
+      expect(name).to eql("Kellogg\\'s")
     end
   end
 
