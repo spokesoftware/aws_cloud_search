@@ -2,7 +2,7 @@
 
 __NOTICE:__ This gem is no longer maintained.  
 It is now provided as reference for those operating with a CloudSearch 2011 backed search system.  
-We recommend updating to the current (2013) API and the official [aws/aws/aws-sdk-ruby](//github.com/aws/aws-sdk-ruby) gems
+We recommend updating to the current (2013) API and the official [aws/aws-sdk-ruby](//github.com/aws/aws-sdk-ruby) gems
 
 ## Description
 
