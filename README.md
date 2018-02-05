@@ -1,8 +1,12 @@
 # AWSCloudSearch
 
+__NOTICE:__ This gem is no longer maintained.  
+It is now provided as reference for those operating with a CloudSearch 2011 backed search system.  
+We recommend updating to the current (2013) API and the official [aws/aws/aws-sdk-ruby](//github.com/aws/aws-sdk-ruby) gems
+
 ## Description
 
-This gem is an implementation of the [Amazon Web Service CloudSearch API](http://aws.amazon.com/cloudsearch/).
+This gem is an implementation of the [Amazon Web Service CloudSearch 2011 API](http://awsdocs.s3.amazonaws.com/cloudsearch/2011-02-01/cloudsearch-dg-2011-02-01.pdf).
 
 The AWS CloudSearch service is comprised of three API end-points:
 
